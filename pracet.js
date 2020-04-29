@@ -9,8 +9,9 @@ app.get('/', (req, res, next) => {
     superagent.get('https://blog.csdn.net/summer199605/article/details/98652959')
         .end((err, sres) => {
             return sres;
-        res.send(sres)
-}}
+            res.send(sres)
+        }
+}
 app.listen(3000, function () {
     console.log('app is listening at port 3000');
 });

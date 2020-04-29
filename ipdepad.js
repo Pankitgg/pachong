@@ -3,10 +3,29 @@ const express = require('express');
 const superagent = require('superagent');
 const cheerio = require('cheerio');
 const app = express();
+const port=3000
+
+
+const { createProxyMiddleware } = require('http-proxy-middleware');  //注意写法，这是1.0以后的版本，最好按抄
+
+module.exports = function (app) {
+    app.use(createProxyMiddleware('/',
+        {
+            target: 'http://10.0.17.100:9700/',
+            pathRewrite: {
+                '^/': '',
+            },
+            changeOrigin: true,
+            secure: false, // 是否验证证书
+            ws: true, // 启用websocket
+        }
+    ));
+};
+
 
 app.get('/', (req, res, next) => {
     console.log(req)
-    superagent.post('https://www.cnblogs.com/chenqf/p/6386163.html')
+    superagent.post('https://www.google.com.hk/webhp?hl=zh-CN&sourceid=cnhp&gws_rd=ssl')
         .end((err, sres) => {
 
             console.log(sres.text)
@@ -15,7 +34,7 @@ app.get('/', (req, res, next) => {
             }
             let $ = cheerio.load(sres.text);
             let items = [];
-            $('p').each((idx, element) => {
+            $('a').each((idx, element) => {
                 let $element = $(element);
                 items.push({
                     title: $element.text(),
@@ -26,6 +45,5 @@ app.get('/', (req, res, next) => {
         });
 });
 
-app.listen(3000, function () {
-    console.log('app is listening at port 3000');
-});
+app.listen(port)
+console.log("app listern started on port " + port)
