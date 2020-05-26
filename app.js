@@ -1,5 +1,5 @@
 const express = require('express');
-// 调用 express 实例，它是一个函数，不带参数调用时，会返回一个 express 实例，将这个变量赋予 app 变量。
+
 const superagent = require('superagent');
 const cheerio = require('cheerio');
 const app = express();
@@ -15,7 +15,7 @@ app.get('/', (req, res, next) => {
             }
             let $ = cheerio.load(sres.text);
             let items = [];
-            $('p').each((idx, element) => {
+            $('a',).each((idx, element) => {
                 let $element = $(element);
                 items.push({
                     title: $element.text(),
@@ -29,3 +29,4 @@ app.get('/', (req, res, next) => {
 app.listen(3000, function () {
     console.log('app is listening at port 3000');
 });
+

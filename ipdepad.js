@@ -25,7 +25,7 @@ module.exports = function (app) {
 
 app.get('/', (req, res, next) => {
     console.log(req)
-    superagent.post('https://www.google.com.hk/webhp?hl=zh-CN&sourceid=cnhp&gws_rd=ssl')
+    superagent.post('https://blog.csdn.net/weixin_39737434/article/details/105388549')
         .end((err, sres) => {
 
             console.log(sres.text)
@@ -34,7 +34,7 @@ app.get('/', (req, res, next) => {
             }
             let $ = cheerio.load(sres.text);
             let items = [];
-            $('a').each((idx, element) => {
+            $('p').each((idx, element) => {
                 let $element = $(element);
                 items.push({
                     title: $element.text(),
